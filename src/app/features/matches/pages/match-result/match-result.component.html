@@ -1,0 +1,79 @@
+<div class="page-content">
+  <div class="page-header">
+    <div class="header-left">
+      <button mat-icon-button routerLink="/app/matches">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1 class="page-title">Registrar Resultado</h1>
+        <p class="page-subtitle">Ingresá el marcador final del partido</p>
+      </div>
+    </div>
+  </div>
+
+  <app-loading-spinner *ngIf="loading" label="Cargando partido..." />
+
+  <mat-card class="result-card" *ngIf="!loading && match">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>sports_soccer</mat-icon>
+        Resultado del partido
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Teams -->
+      <div class="teams-row">
+        <div class="team-col">
+          <div class="team-avatar home">🔵</div>
+          <div class="team-name">{{ match.homeTeamName || 'Equipo Local' }}</div>
+          <div class="team-role">Local</div>
+        </div>
+        <div class="vs-label">VS</div>
+        <div class="team-col">
+          <div class="team-avatar away">🔴</div>
+          <div class="team-name">{{ match.awayTeamName || 'Equipo Visitante' }}</div>
+          <div class="team-role">Visitante</div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Score form -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="score-row">
+          <div class="score-field">
+            <label class="score-label">Goles Local</label>
+            <input
+              type="number"
+              formControlName="homeTeamScore"
+              class="score-input"
+              min="0"
+            />
+          </div>
+          <div class="score-sep">–</div>
+          <div class="score-field">
+            <label class="score-label">Goles Visitante</label>
+            <input
+              type="number"
+              formControlName="awayTeamScore"
+              class="score-input"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" routerLink="/app/matches">Cancelar</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="saving">
+            <mat-icon *ngIf="!saving">save</mat-icon>
+            <app-loading-spinner *ngIf="saving" [diameter]="18" />
+            <span *ngIf="!saving">Confirmar resultado</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

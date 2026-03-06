@@ -1,0 +1,73 @@
+<mat-sidenav-container class="sidenav-container">
+
+  <!-- ═══ SIDENAV ═══════════════════════════════════════ -->
+  <mat-sidenav mode="side" opened class="sidenav">
+
+    <!-- Brand -->
+    <div class="sidenav-brand">
+      <div class="brand-logo">⚽</div>
+      <div>
+        <div class="brand-name">FIFATournament</div>
+        <div class="brand-sub">Panel de gestión</div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <mat-nav-list class="nav-list">
+      <div class="nav-section-label">Principal</div>
+
+      <a
+        mat-list-item
+        *ngFor="let item of navItems"
+        [routerLink]="item.route"
+        routerLinkActive="active-link"
+      >
+        <span class="material-icons-round nav-icon">{{ item.icon }}</span>
+        {{ item.label }}
+      </a>
+
+      <mat-divider class="nav-divider"></mat-divider>
+      <div class="nav-section-label">Acciones</div>
+
+      <a mat-list-item routerLink="/app/tournaments/new">
+        <span class="material-icons-round nav-icon">add_circle_outline</span>
+        Nuevo torneo
+      </a>
+    </mat-nav-list>
+
+    <!-- User footer -->
+    <div class="sidenav-footer">
+      <div class="user-tile">
+        <div class="user-avatar">JD</div>
+        <div class="user-info">
+          <div class="user-name">Juan Díaz</div>
+          <div class="user-role">Administrador</div>
+        </div>
+        <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+          <span class="material-icons-round">logout</span>
+        </button>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <!-- ═══ MAIN CONTENT ════════════════════════════════════ -->
+  <mat-sidenav-content>
+    <!-- Toolbar -->
+    <mat-toolbar class="app-toolbar">
+      <span class="toolbar-spacer"></span>
+      <button mat-icon-button>
+        <span class="material-icons-round">notifications_none</span>
+      </button>
+      <button mat-flat-button color="primary" routerLink="/app/tournaments/new">
+        <span class="material-icons-round">add</span>
+        Nuevo torneo
+      </button>
+    </mat-toolbar>
+
+    <!-- Router outlet -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -1,0 +1,27 @@
+<div class="page-content">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">
+    <button mat-icon-button routerLink="/app/teams"><mat-icon>arrow_back</mat-icon></button>
+    <h1 class="page-title">Nuevo Equipo</h1>
+  </div>
+  <mat-card style="max-width:480px">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" style="width:100%;margin-bottom:8px">
+          <mat-label>Nombre del equipo</mat-label>
+          <input matInput formControlName="name" placeholder="Ej: Real Fútbol FC">
+          <mat-error *ngIf="name?.hasError('required')">El nombre es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width:100%;margin-bottom:8px">
+          <mat-label>ID del torneo</mat-label>
+          <input matInput formControlName="tournamentId" placeholder="UUID del torneo">
+        </mat-form-field>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+          <button mat-stroked-button type="button" routerLink="/app/teams">Cancelar</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+            <mat-icon>save</mat-icon> Guardar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

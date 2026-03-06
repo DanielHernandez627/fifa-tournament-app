@@ -1,0 +1,56 @@
+@use '../../../../../styles/variables' as v;
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: v.$color-bg;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: v.$color-surface;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-xl;
+  padding: 40px 36px;
+  box-shadow: v.$shadow-6;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: v.$color-text-primary;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: v.$color-text-secondary;
+  margin: 0;
+}
+
+.full-width { width: 100%; }
+
+mat-form-field { margin-bottom: 8px; }
+
+.submit-btn {
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  border-radius: v.$radius-pill !important;
+}

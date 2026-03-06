@@ -1,0 +1,52 @@
+// ─── COLOR TOKENS ───────────────────────────────────────────
+$color-bg:            #0E1118;
+$color-surface:       #161C26;
+$color-surface-2:     #1E2535;
+$color-border:        #2C3550;
+$color-border-light:  #38435E;
+
+$color-primary:           #5B8DEF;
+$color-primary-hover:     #4A7DE0;
+$color-primary-container: rgba(91, 141, 239, 0.14);
+$color-on-primary:        #ffffff;
+
+$color-success:           #3DD68C;
+$color-success-container: rgba(61, 214, 140, 0.13);
+$color-warning:           #FBBC05;
+$color-warning-container: rgba(251, 188, 5, 0.13);
+$color-danger:            #F2694A;
+$color-danger-container:  rgba(242, 105, 74, 0.13);
+$color-gold:              #D4A843;
+$color-gold-container:    rgba(212, 168, 67, 0.13);
+
+$color-text-primary:   #E2E8F5;
+$color-text-secondary: #8C97B4;
+$color-text-disabled:  #4A5470;
+
+// ─── SPACING ────────────────────────────────────────────────
+$space-1:  4px;
+$space-2:  8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-8: 32px;
+
+// ─── BORDER RADIUS ──────────────────────────────────────────
+$radius-sm:   4px;
+$radius-md:   8px;
+$radius-lg:  12px;
+$radius-xl:  16px;
+$radius-pill: 100px;
+
+// ─── SHADOWS ────────────────────────────────────────────────
+$shadow-1: 0 1px 3px rgba(0,0,0,.45), 0 1px 2px rgba(0,0,0,.35);
+$shadow-3: 0 4px 12px rgba(0,0,0,.5), 0 2px 4px rgba(0,0,0,.35);
+$shadow-6: 0 8px 28px rgba(0,0,0,.55), 0 4px 8px rgba(0,0,0,.3);
+
+// ─── TRANSITIONS ────────────────────────────────────────────
+$transition: 200ms cubic-bezier(.4, 0, .2, 1);
+
+// ─── BREAKPOINTS ────────────────────────────────────────────
+$bp-mobile: 640px;
+$bp-tablet: 1024px;

@@ -1,0 +1,36 @@
+<div class="page-content">
+  <app-loading-spinner *ngIf="loading" />
+  <ng-container *ngIf="!loading && tournament">
+    <div class="page-header">
+      <div class="header-left">
+        <button mat-icon-button routerLink="/app/tournaments"><mat-icon>arrow_back</mat-icon></button>
+        <div>
+          <h1 class="page-title">{{ tournament.name }}</h1>
+          <div class="chips-row">
+            <app-status-badge [status]="tournament.type" />
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button mat-stroked-button [routerLink]="['/app/tournaments', id, 'edit']"><mat-icon>edit</mat-icon> Editar</button>
+        <button mat-flat-button color="primary" (click)="onAdvance()"><mat-icon>skip_next</mat-icon> Avanzar</button>
+      </div>
+    </div>
+
+    <mat-tab-group animationDuration="200ms">
+      <mat-tab label="Fixtures">
+        <div class="tab-content">
+          <div class="tab-actions">
+            <button mat-stroked-button (click)="generateFixtures()"><mat-icon>refresh</mat-icon> Generar fixtures</button>
+          </div>
+          <app-empty-state icon="calendar_month" title="No hay fixtures generados" subtitle="Generá los fixtures para esta fase" />
+        </div>
+      </mat-tab>
+      <mat-tab label="Standings">
+        <div class="tab-content">
+          <button mat-stroked-button [routerLink]="['/app/tournaments', id, 'standings']">Ver tabla completa</button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
+</div>

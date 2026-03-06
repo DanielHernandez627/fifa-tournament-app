@@ -1,0 +1,50 @@
+<mat-card class="t-card" (click)="goToDetail()">
+  <div class="stripe" [ngClass]="stripeClass"></div>
+
+  <mat-card-content class="card-body">
+    <div class="card-row-top">
+      <div>
+        <div class="t-name">{{ tournament.name }}</div>
+        <div class="chip-row">
+          <app-status-badge [status]="tournament.type" />
+        </div>
+      </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/app/tournaments', tournament.id, 'edit']">
+        <mat-icon>edit</mat-icon> Editar
+      </button>
+      <button mat-menu-item (click)="onDelete($event)" class="danger-item">
+        <mat-icon>delete_outline</mat-icon> Eliminar
+      </button>
+    </mat-menu>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">—</div>
+        <div class="stat-lbl">Equipos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">—</div>
+        <div class="stat-lbl">Fases</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">—</div>
+        <div class="stat-lbl">Partidos</div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button mat-stroked-button (click)="goToDetail(); $event.stopPropagation()">
+        Ver detalle
+      </button>
+      <button mat-button (click)="goToStandings($event)">
+        Standings
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

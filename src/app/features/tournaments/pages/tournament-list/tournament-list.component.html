@@ -1,0 +1,38 @@
+<div class="page-content">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Torneos</h1>
+      <p class="page-subtitle">{{ tournaments.length }} torneos registrados</p>
+    </div>
+    <button mat-flat-button color="primary" routerLink="/app/tournaments/new">
+      <span class="material-icons-round">add</span>
+      Nuevo torneo
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <app-loading-spinner *ngIf="loading" label="Cargando torneos..." />
+
+  <!-- Empty state -->
+  <app-empty-state
+    *ngIf="!loading && tournaments.length === 0"
+    icon="emoji_events"
+    title="No hay torneos todavía"
+    subtitle="Creá tu primer torneo para comenzar"
+  >
+    <button mat-flat-button color="primary" routerLink="/app/tournaments/new">
+      Crear torneo
+    </button>
+  </app-empty-state>
+
+  <!-- Cards grid -->
+  <div class="cards-grid" *ngIf="!loading && tournaments.length > 0">
+    <app-tournament-card
+      *ngFor="let t of tournaments; trackBy: trackById"
+      [tournament]="t"
+    />
+  </div>
+
+</div>

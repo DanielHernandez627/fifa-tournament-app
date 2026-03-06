@@ -1,0 +1,118 @@
+<div class="page-content">
+  <div class="page-header">
+    <div class="header-left">
+      <button mat-icon-button [routerLink]="['/app/tournaments', tournamentId]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1 class="page-title">Tabla de Posiciones</h1>
+        <p class="page-subtitle">Clasificación actual del torneo</p>
+      </div>
+    </div>
+  </div>
+
+  <app-loading-spinner *ngIf="loading" />
+
+  <ng-container *ngIf="!loading && rows.length > 0">
+    <!-- Champion banner -->
+    <div class="champion-banner">
+      <div class="trophy">🏆</div>
+      <div>
+        <div class="champion-label">Líder actual</div>
+        <div class="champion-name">{{ rows[0].teamName }}</div>
+      </div>
+      <div class="champion-pts">
+        <div class="pts-label">Puntos</div>
+        <div class="pts-num">{{ rows[0].points }}</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>leaderboard</mat-icon> Clasificación
+        </mat-card-title>
+        <div class="qualify-legend">
+          <span class="qualify-dot"></span>
+          Clasificados (top 4)
+        </div>
+      </mat-card-header>
+
+      <div class="table-wrap">
+        <table mat-table [dataSource]="rows">
+
+          <ng-container matColumnDef="rank">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let row; let i = index">
+              <span class="rank-badge" [ngClass]="getRankClass(i)">{{ i + 1 }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="teamName">
+            <th mat-header-cell *matHeaderCellDef>Equipo</th>
+            <td mat-cell *matCellDef="let row" class="team-name-cell">{{ row.teamName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="played">
+            <th mat-header-cell *matHeaderCellDef class="num-col">PJ</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono">{{ row.played }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="won">
+            <th mat-header-cell *matHeaderCellDef class="num-col">G</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono success">{{ row.won }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="drawn">
+            <th mat-header-cell *matHeaderCellDef class="num-col">E</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono">{{ row.drawn }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="lost">
+            <th mat-header-cell *matHeaderCellDef class="num-col">P</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono danger">{{ row.lost }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="goalsFor">
+            <th mat-header-cell *matHeaderCellDef class="num-col">GF</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono">{{ row.goalsFor }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="goalsAgainst">
+            <th mat-header-cell *matHeaderCellDef class="num-col">GC</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono">{{ row.goalsAgainst }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="goalDifference">
+            <th mat-header-cell *matHeaderCellDef class="num-col">DG</th>
+            <td mat-cell *matCellDef="let row" class="num-col mono"
+                [class.success]="row.goalDifference > 0"
+                [class.danger]="row.goalDifference < 0">
+              {{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="points">
+            <th mat-header-cell *matHeaderCellDef class="num-col pts-header">Pts</th>
+            <td mat-cell *matCellDef="let row" class="num-col pts-cell">{{ row.points }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns; let i = index"
+            [class.qualify-row]="isQualified(i)"
+          ></tr>
+        </table>
+      </div>
+    </mat-card>
+  </ng-container>
+
+  <app-empty-state
+    *ngIf="!loading && rows.length === 0"
+    icon="leaderboard"
+    title="Sin datos de standings"
+    subtitle="Jugá partidos para ver la tabla de posiciones"
+  />
+</div>

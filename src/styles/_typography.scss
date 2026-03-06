@@ -1,0 +1,38 @@
+// ─── TYPOGRAPHY ─────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DM Sans', sans-serif;
+  color: #E2E8F5;
+  margin: 0;
+}
+
+h1 { font-size: 2rem;    font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem;  font-weight: 700; line-height: 1.25; }
+h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.35; }
+h4 { font-size: 1rem;    font-weight: 600; }
+
+.page-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #E2E8F5;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #8C97B4;
+  margin-top: 4px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4A5470;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.score-font {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+}

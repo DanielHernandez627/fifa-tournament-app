@@ -1,0 +1,66 @@
+<div class="page-content">
+  <div class="page-header">
+    <div class="header-left">
+      <button mat-icon-button routerLink="/app/tournaments">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1 class="page-title">Crear torneo</h1>
+        <p class="page-subtitle">Completá los datos del nuevo torneo</p>
+      </div>
+    </div>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>emoji_events</mat-icon>
+        Información básica
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre del torneo</mat-label>
+          <input matInput formControlName="name" placeholder="Ej: Copa Primavera 2025" />
+          <mat-icon matSuffix>title</mat-icon>
+          <mat-error *ngIf="name?.hasError('required')">El nombre es obligatorio</mat-error>
+          <mat-error *ngIf="name?.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+        </mat-form-field>
+
+        <!-- Type selector -->
+        <div class="field-label">Tipo de torneo</div>
+        <div class="type-grid">
+          <div
+            *ngFor="let t of tournamentTypes"
+            class="type-option"
+            [class.selected]="selectedType === t.value"
+            (click)="selectType(t.value)"
+          >
+            <div class="type-emoji">{{ t.icon }}</div>
+            <div class="type-name">{{ t.label }}</div>
+            <div class="type-desc">{{ t.desc }}</div>
+          </div>
+        </div>
+        <mat-hint class="type-hint">
+          El tipo determina cómo se generan los fixtures automáticamente.
+        </mat-hint>
+
+        <mat-divider class="form-divider"></mat-divider>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" routerLink="/app/tournaments">
+            Cancelar
+          </button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+            <app-loading-spinner *ngIf="loading" [diameter]="18" />
+            <mat-icon *ngIf="!loading">check</mat-icon>
+            <span *ngIf="!loading">Crear torneo</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,56 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Header -->
+    <div class="login-header">
+      <div class="logo">⚽</div>
+      <h1>FIFA Tournament</h1>
+      <p class="subtitle">Iniciá sesión para continuar</p>
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="usuario@ejemplo.com"
+          autocomplete="email"
+        />
+        <mat-icon matSuffix>alternate_email</mat-icon>
+        <mat-error *ngIf="email?.hasError('required')">El correo es obligatorio</mat-error>
+        <mat-error *ngIf="email?.hasError('email')">Ingresá un correo válido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="password?.hasError('required')">La contraseña es obligatoria</mat-error>
+        <mat-error *ngIf="password?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="submit-btn full-width"
+        [disabled]="loading"
+      >
+        <app-loading-spinner *ngIf="loading" [diameter]="20" />
+        <span *ngIf="!loading">Iniciar sesión</span>
+      </button>
+
+    </form>
+  </div>
+</div>

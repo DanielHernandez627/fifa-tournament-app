@@ -1,0 +1,134 @@
+@use '../../../styles/variables' as v;
+
+.sidenav-container {
+  height: 100vh;
+  background: v.$color-bg;
+}
+
+// ─── SIDENAV ────────────────────────────────────────────────
+::ng-deep .mat-drawer {
+  width: 256px;
+  background: v.$color-surface !important;
+  border-right: 1px solid v.$color-border !important;
+}
+
+.sidenav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px 16px;
+  border-bottom: 1px solid v.$color-border;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, v.$color-primary, #7C5CE0);
+  border-radius: v.$radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: v.$shadow-3;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: v.$color-text-primary;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: v.$color-text-disabled;
+  margin-top: 1px;
+}
+
+.nav-list {
+  flex: 1;
+  padding-top: 8px;
+}
+
+.nav-section-label {
+  padding: 16px 16px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: v.$color-text-disabled;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  color: v.$color-text-secondary;
+}
+
+.nav-divider {
+  margin: 8px 16px;
+  border-color: v.$color-border;
+}
+
+::ng-deep .active-link {
+  background: v.$color-primary-container !important;
+  color: v.$color-primary !important;
+  border-radius: v.$radius-lg;
+
+  .nav-icon { color: v.$color-primary; }
+}
+
+// ─── USER FOOTER ────────────────────────────────────────────
+.sidenav-footer {
+  padding: 8px;
+  border-top: 1px solid v.$color-border;
+}
+
+.user-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: v.$radius-lg;
+  cursor: pointer;
+  transition: background v.$transition;
+
+  &:hover { background: rgba(255,255,255,.05); }
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, v.$color-primary, #A855F7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.user-name { font-size: 13px; font-weight: 500; color: v.$color-text-primary; }
+.user-info  { flex: 1; }
+.user-role  { font-size: 11px; color: v.$color-text-disabled; }
+
+// ─── TOOLBAR ────────────────────────────────────────────────
+.app-toolbar {
+  background: v.$color-surface !important;
+  border-bottom: 1px solid v.$color-border;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar-spacer { flex: 1; }
+
+// ─── CONTENT ────────────────────────────────────────────────
+.content-area {
+  min-height: calc(100vh - 56px);
+  background: v.$color-bg;
+}
