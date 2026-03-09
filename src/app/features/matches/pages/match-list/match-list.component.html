@@ -1,19 +1,27 @@
 <div class="page-content">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
-    <div><h1 class="page-title">Partidos</h1><p class="page-subtitle">{{ matches.length }} partidos</p></div>
+    <div><h1 class="page-title">Partidos</h1><p class="page-subtitle">{{ totalMatches }} partidos</p></div>
   </div>
   <app-loading-spinner *ngIf="loading" />
   <mat-card *ngIf="!loading">
-    <app-empty-state *ngIf="matches.length === 0" icon="sports_soccer" title="Sin partidos" subtitle="Los partidos se generan desde los fixtures del torneo" />
-    <div *ngFor="let m of matches" style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid #2C3550">
-      <span style="font-size:11px;color:#4A5470;width:56px">J{{ m.matchday }}</span>
-      <span style="flex:1;text-align:right;font-weight:500;color:#E2E8F5">{{ m.homeTeamName || m.homeTeamId }}</span>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:16px;background:#1E2535;border:1px solid #2C3550;padding:4px 12px;border-radius:6px;color:#E2E8F5">
-        {{ m.isPlayed ? (m.homeTeamScore + ' – ' + m.awayTeamScore) : '–' }}
-      </span>
-      <span style="flex:1;font-weight:500;color:#E2E8F5">{{ m.awayTeamName || m.awayTeamId }}</span>
-      <app-status-badge [status]="m.isPlayed ? 'played' : 'pending'" />
-      <button mat-stroked-button *ngIf="!m.isPlayed" [routerLink]="[m.id, 'result']" style="flex-shrink:0">Registrar</button>
+    <app-empty-state *ngIf="matchdays.length === 0" icon="sports_soccer" title="Sin partidos" subtitle="Los partidos se generan desde los fixtures del torneo" />
+
+    <div *ngFor="let day of matchdays" style="padding:8px 0;border-bottom:1px solid #2C3550">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px;color:#8C97B4;font-size:12px;text-transform:uppercase;letter-spacing:.03em">
+        <span>Fecha {{ day.matchday }}</span>
+        <span>{{ day.totalMatches }} partidos</span>
+      </div>
+
+      <div *ngFor="let m of day.matches" style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-top:1px solid #2C3550">
+        <span style="font-size:11px;color:#4A5470;width:56px">J{{ m.matchday }}</span>
+        <span style="flex:1;text-align:right;font-weight:500;color:#E2E8F5">{{ m.homeTeamName || m.homeTeamId }}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:16px;background:#1E2535;border:1px solid #2C3550;padding:4px 12px;border-radius:6px;color:#E2E8F5">
+          {{ m.isPlayed ? (m.homeTeamScore + ' – ' + m.awayTeamScore) : '–' }}
+        </span>
+        <span style="flex:1;font-weight:500;color:#E2E8F5">{{ m.awayTeamName || m.awayTeamId }}</span>
+        <app-status-badge [status]="m.isPlayed ? 'played' : 'pending'" />
+        <button mat-stroked-button *ngIf="!m.isPlayed" [routerLink]="[m.id, 'result']" style="flex-shrink:0">Registrar</button>
+      </div>
     </div>
   </mat-card>
 </div>

@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
 import {
   Tournament, CreateTournamentDto, UpdateTournamentDto,
-  Match, MatchResultDto, Phase, StandingsRow,
+  Match, MatchResultDto, Phase, StandingsRow, ApiId,
 } from '../../../shared/models';
 
 export interface GenerateLeagueFixtureDto {
-  phaseId?: string;
+  phaseId: ApiId;
   doubleRound?: boolean;
 }
 
@@ -46,8 +46,8 @@ export class TournamentsApiService {
     return this.api.get<StandingsRow[]>(`/tournaments/${id}/standings`);
   }
 
-  generateLeagueFixtures(id: string, dto?: GenerateLeagueFixtureDto): Observable<Match[]> {
-    return this.api.post<Match[]>(`/tournaments/${id}/fixtures/league`, dto ?? {});
+  generateLeagueFixtures(id: string, dto: GenerateLeagueFixtureDto): Observable<Match[]> {
+    return this.api.post<Match[]>(`/tournaments/${id}/fixtures/league`, dto);
   }
 
   generateQuadrangularFixtures(id: string): Observable<Match[]> {
@@ -58,7 +58,7 @@ export class TournamentsApiService {
     return this.api.post<Match[]>(`/tournaments/${id}/fixtures/final`);
   }
 
-  registerMatchResult(matchId: string, dto: MatchResultDto): Observable<Match> {
+  registerMatchResult(matchId: ApiId, dto: MatchResultDto): Observable<Match> {
     return this.api.post<Match>(`/tournaments/matches/${matchId}/result`, dto);
   }
 

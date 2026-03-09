@@ -3,6 +3,79 @@
 .page-header   { margin-bottom: 24px; }
 .header-left   { display: flex; align-items: center; gap: 8px; }
 
+.selector-card {
+  margin-bottom: 20px;
+}
+
+.selector-head {
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: v.$color-text-primary;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: v.$color-text-disabled;
+    font-size: 13px;
+  }
+}
+
+.selector-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    min-width: 280px;
+    flex: 1;
+  }
+}
+
+.selector-btn {
+  min-height: 56px;
+  padding: 0 20px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .selector-btn {
+    width: 100%;
+  }
+}
+
+.phase-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: v.$color-surface-2;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-lg;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+
+.phase-meta-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: v.$color-text-disabled;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.phase-meta-title {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: v.$color-text-primary;
+}
+
 .champion-banner {
   display: flex; align-items: center; gap: 18px;
   background: linear-gradient(135deg, rgba(212,168,67,.13), rgba(212,168,67,.04));

@@ -1,5 +1,8 @@
+import { ApiId } from './match.models';
+import { PhaseStatus } from './phase.models';
+
 export interface StandingsRow {
-  teamId: string;
+  teamId: ApiId;
   teamName: string;
   played: number;
   won: number;
@@ -9,4 +12,12 @@ export interface StandingsRow {
   goalsAgainst: number;
   goalDifference: number;
   points: number;
+}
+
+export interface TournamentStandings {
+  tournamentId: ApiId;
+  phaseId: ApiId;
+  phaseName: string;
+  phaseStatus: PhaseStatus;
+  standings: StandingsRow[];
 }

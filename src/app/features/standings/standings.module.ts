@@ -4,7 +4,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { StandingsViewComponent } from './pages/standings-view/standings-view.component';
 
 const routes: Routes = [
-  { path: ':id', component: StandingsViewComponent },
+  { path: '', component: StandingsViewComponent },
 ];
 
 @NgModule({

@@ -1,19 +1,73 @@
 <div class="page-content">
   <div class="page-header">
     <div class="header-left">
-      <button mat-icon-button [routerLink]="['/app/tournaments', tournamentId]">
+      <button
+        mat-icon-button
+        [routerLink]="tournamentId ? ['/app/tournaments', tournamentId] : ['/app/tournaments']"
+      >
         <mat-icon>arrow_back</mat-icon>
       </button>
       <div>
         <h1 class="page-title">Tabla de Posiciones</h1>
-        <p class="page-subtitle">Clasificación actual del torneo</p>
+        <p class="page-subtitle">Clasificacion del torneo activo</p>
       </div>
     </div>
   </div>
 
+  <mat-card *ngIf="!hasRouteTournamentId" class="selector-card">
+    <mat-card-content>
+      <div class="selector-head">
+        <h2>Selecciona un torneo</h2>
+        <p>Elige un torneo y consulta su tabla de posiciones.</p>
+      </div>
+
+      <app-loading-spinner *ngIf="tournamentsLoading" label="Cargando torneos..." />
+
+      <ng-container *ngIf="!tournamentsLoading">
+        <app-empty-state
+          *ngIf="tournaments.length === 0"
+          icon="emoji_events"
+          title="No tienes torneos disponibles"
+          subtitle="Crea un torneo para visualizar su clasificacion"
+        />
+
+        <div class="selector-form" *ngIf="tournaments.length > 0">
+          <mat-form-field appearance="outline">
+            <mat-label>Torneo</mat-label>
+            <mat-select [(value)]="selectedTournamentId">
+              <mat-option *ngFor="let tournament of tournaments" [value]="tournament.id">
+                {{ tournament.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-flat-button
+            class="selector-btn"
+            color="primary"
+            type="button"
+            [disabled]="loading || !selectedTournamentId"
+            (click)="onLoadSelectedTournament()"
+          >
+            <mat-icon>leaderboard</mat-icon>
+            Consultar tabla
+          </button>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+
   <app-loading-spinner *ngIf="loading" />
 
   <ng-container *ngIf="!loading && rows.length > 0">
+    <div class="phase-meta" *ngIf="phaseName">
+      <div>
+        <span class="phase-meta-label">Fase activa</span>
+        <h2 class="phase-meta-title">{{ phaseName }}</h2>
+      </div>
+      <app-status-badge *ngIf="phaseStatus" [status]="phaseStatus" />
+    </div>
+
     <!-- Champion banner -->
     <div class="champion-banner">
       <div class="trophy">🏆</div>

@@ -1,17 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
-import { Match, CreateMatchDto, UpdateMatchDto } from '../../../shared/models';
+import {
+  Match,
+  CreateMatchDto,
+  UpdateMatchDto,
+  ApiId,
+  MatchesGroupedResponse,
+  MatchesQueryParams,
+} from '../../../shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class MatchesApiService {
   constructor(private api: ApiService) {}
 
-  getAll(): Observable<Match[]> {
-    return this.api.get<Match[]>('/matches');
+  getAllGrouped(params?: Omit<MatchesQueryParams, 'groupByMatchday'>): Observable<MatchesGroupedResponse> {
+    const queryParams: Record<string, string> = {
+      ...(params?.phaseId !== undefined ? { phaseId: String(params.phaseId) } : {}),
+    };
+
+    return this.api.get<MatchesGroupedResponse>('/matches', queryParams);
   }
 
-  getById(id: string): Observable<Match> {
+  getAllFlat(params?: Omit<MatchesQueryParams, 'groupByMatchday'>): Observable<Match[]> {
+    const queryParams: Record<string, string> = {
+      groupByMatchday: 'false',
+      ...(params?.phaseId !== undefined ? { phaseId: String(params.phaseId) } : {}),
+    };
+
+    return this.api.get<Match[]>('/matches', queryParams);
+  }
+
+  getById(id: ApiId): Observable<Match> {
     return this.api.get<Match>(`/matches/${id}`);
   }
 
@@ -19,11 +39,11 @@ export class MatchesApiService {
     return this.api.post<Match>('/matches', dto);
   }
 
-  update(id: string, dto: UpdateMatchDto): Observable<Match> {
+  update(id: ApiId, dto: UpdateMatchDto): Observable<Match> {
     return this.api.put<Match>(`/matches/${id}`, dto);
   }
 
-  delete(id: string): Observable<void> {
+  delete(id: ApiId): Observable<void> {
     return this.api.delete<void>(`/matches/${id}`);
   }
 }

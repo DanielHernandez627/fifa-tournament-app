@@ -70,56 +70,70 @@
             *ngIf="activePhase && activePhaseMatches.length === 0 && !generatingFixture"
             icon="calendar_month"
             title="Sin partidos en la fase activa"
-            subtitle="El backend generara fixtures automaticamente al avanzar"
+            subtitle="El backend genera fixtures al avanzar. Si no aparecen, puedes reintentar aqui para fase Liga o Cuadrangular"
           />
 
+          <div class="empty-actions" *ngIf="canManualGenerateFixture()">
+            <button mat-stroked-button type="button" (click)="onManualGenerateFixture()">
+              <mat-icon>refresh</mat-icon>
+              Generar fixture
+            </button>
+          </div>
+
           <mat-card *ngIf="activePhase && activePhaseMatches.length > 0" class="matches-card">
-            <div class="match-row header">
-              <span>Jornada</span>
-              <span>Local</span>
-              <span>Visitante</span>
-              <span>Estado</span>
-              <span>Resultado</span>
-            </div>
+            <div class="matchday-block" *ngFor="let day of activePhaseMatchdays">
+              <div class="matchday-header">
+                <span class="matchday-title">Fecha {{ day.matchday || '-' }}</span>
+                <span class="matchday-count">{{ day.totalMatches }} partidos</span>
+              </div>
 
-            <div class="match-row" *ngFor="let match of activePhaseMatches; trackBy: trackByMatch">
-              <span class="matchday">J{{ match.matchday || '-' }}</span>
-              <span class="team">{{ match.homeTeamName || match.homeTeamId }}</span>
-              <span class="team">{{ match.awayTeamName || match.awayTeamId }}</span>
-              <span><app-status-badge [status]="match.isPlayed ? 'played' : 'pending'" /></span>
-              <span class="score">
-                {{ match.isPlayed ? (match.homeTeamScore + ' - ' + match.awayTeamScore) : '-' }}
-              </span>
+              <div class="match-row header">
+                <span>Jornada</span>
+                <span>Local</span>
+                <span>Visitante</span>
+                <span>Estado</span>
+                <span>Resultado</span>
+              </div>
 
-              <div class="result-actions" *ngIf="!match.isPlayed">
-                <input
-                  type="number"
-                  min="0"
-                  placeholder="Local"
-                  [value]="resultDrafts[match.id]!.homeTeamScore ?? ''"
-                  (input)="onScoreChange(match.id, 'homeTeamScore', $event)"
-                />
-                <span class="sep">-</span>
-                <input
-                  type="number"
-                  min="0"
-                  placeholder="Visita"
-                  [value]="resultDrafts[match.id]!.awayTeamScore ?? ''"
-                  (input)="onScoreChange(match.id, 'awayTeamScore', $event)"
-                />
+              <div class="match-row" *ngFor="let match of day.matches; trackBy: trackByMatch">
+                <span class="matchday">J{{ match.matchday || '-' }}</span>
+                <span class="team">{{ match.homeTeamName || match.homeTeamId }}</span>
+                <span class="team">{{ match.awayTeamName || match.awayTeamId }}</span>
+                <span><app-status-badge [status]="match.isPlayed ? 'played' : 'pending'" /></span>
+                <span class="score">
+                  {{ match.isPlayed ? (match.homeTeamScore + ' - ' + match.awayTeamScore) : '-' }}
+                </span>
 
-                <button mat-stroked-button type="button" (click)="toggleOverwrite(match.id)">
-                  {{ resultDrafts[match.id]!.overwrite ? 'Overwrite: si' : 'Overwrite: no' }}
-                </button>
+                <div class="result-actions" *ngIf="!match.isPlayed">
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Local"
+                    [value]="resultDrafts[matchKey(match.id)]!.homeTeamScore ?? ''"
+                    (input)="onScoreChange(match.id, 'homeTeamScore', $event)"
+                  />
+                  <span class="sep">-</span>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Visita"
+                    [value]="resultDrafts[matchKey(match.id)]!.awayTeamScore ?? ''"
+                    (input)="onScoreChange(match.id, 'awayTeamScore', $event)"
+                  />
 
-                <button
-                  mat-flat-button
-                  color="primary"
-                  type="button"
-                  [disabled]="!canSaveResult(match)"
-                  (click)="onSaveResult(match)">
-                  {{ savingResults[match.id] ? 'Guardando...' : 'Guardar' }}
-                </button>
+                  <button mat-stroked-button type="button" (click)="toggleOverwrite(match.id)">
+                    {{ resultDrafts[matchKey(match.id)]!.overwrite ? 'Jugado: si' : 'Jugado: no' }}
+                  </button>
+
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    type="button"
+                    [disabled]="!canSaveResult(match)"
+                    (click)="onSaveResult(match)">
+                    {{ savingResults[matchKey(match.id)] ? 'Guardando...' : 'Guardar' }}
+                  </button>
+                </div>
               </div>
             </div>
           </mat-card>
