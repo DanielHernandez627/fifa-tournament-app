@@ -4,6 +4,7 @@ import { ApiService } from '../../../core/services/api.service';
 import {
   Tournament, CreateTournamentDto, UpdateTournamentDto,
   Match, MatchResultDto, Phase, StandingsRow, ApiId,
+  TournamentStatsListItem,
 } from '../../../shared/models';
 
 export interface GenerateLeagueFixtureDto {
@@ -28,6 +29,10 @@ export class TournamentsApiService {
 
   getById(id: string): Observable<Tournament> {
     return this.api.get<Tournament>(`/tournaments/${id}`);
+  }
+
+  getAllWithStats(): Observable<TournamentStatsListItem[]> {
+    return this.api.get<TournamentStatsListItem[]>('/tournaments/stats');
   }
 
   create(dto: CreateTournamentDto): Observable<Tournament> {

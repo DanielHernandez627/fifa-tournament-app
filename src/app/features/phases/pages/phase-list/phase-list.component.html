@@ -1,0 +1,46 @@
+<div class="page-content">
+  <div class="page-header">
+    <h1 class="page-title">Fases</h1>
+    <p class="page-subtitle">Listado general de fases registradas</p>
+  </div>
+
+  <app-loading-spinner *ngIf="loading" />
+
+  <mat-card *ngIf="!loading && phases.length > 0">
+    <div class="table-wrap">
+      <table mat-table [dataSource]="phases">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let phase" class="phase-name">{{ phase.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let phase">
+            <app-status-badge [status]="phase.status || 'scheduled'" />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="orderNumber">
+          <th mat-header-cell *matHeaderCellDef class="num-col">Orden</th>
+          <td mat-cell *matCellDef="let phase" class="num-col mono">{{ phase.orderNumber ?? '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tournamentId">
+          <th mat-header-cell *matHeaderCellDef>Torneo ID</th>
+          <td mat-cell *matCellDef="let phase" class="mono text-muted">{{ phase.tournamentId }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card>
+
+  <app-empty-state
+    *ngIf="!loading && phases.length === 0"
+    icon="swap_horiz"
+    title="Sin fases"
+    subtitle="Las fases se crean automaticamente en el flujo de torneos"
+  />
+</div>

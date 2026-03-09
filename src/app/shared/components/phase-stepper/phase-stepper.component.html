@@ -1,0 +1,17 @@
+<div class="stepper-container">
+  <ng-container *ngFor="let phase of phases; let i = index; let last = last">
+    <div class="step" [ngClass]="getStepClass(phase)">
+      <div class="step-icon-col">
+        <div class="step-icon">
+          <span class="material-icons-round" *ngIf="phase.status === 'closed'">check</span>
+          <span *ngIf="phase.status !== 'closed'">{{ i + 1 }}</span>
+        </div>
+        <div class="step-label">
+          <div class="step-name">{{ phase.name }}</div>
+          <app-status-badge [status]="phase.status || 'scheduled'" />
+        </div>
+      </div>
+      <div class="step-connector" *ngIf="!last" [class.done]="phase.status === 'closed'"></div>
+    </div>
+  </ng-container>
+</div>

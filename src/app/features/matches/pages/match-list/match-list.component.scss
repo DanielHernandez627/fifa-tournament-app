@@ -1,0 +1,110 @@
+@use '../../../../../styles/variables' as v;
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.phase-section {
+  border-bottom: 1px solid v.$color-border;
+}
+
+.phase-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: #1A2030;
+  border: 0;
+  color: v.$color-text-primary;
+  cursor: pointer;
+  text-align: left;
+}
+
+.phase-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.phase-meta {
+  margin-left: auto;
+  font-size: 12px;
+  color: v.$color-text-disabled;
+}
+
+.phase-chevron {
+  color: v.$color-text-disabled;
+  transition: transform v.$transition;
+}
+
+.phase-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.phase-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 220ms ease;
+}
+
+.phase-body.collapsed {
+  grid-template-rows: 0fr;
+}
+
+.phase-body-inner {
+  overflow: hidden;
+}
+
+.day-block {
+  padding: 6px 0;
+  border-bottom: 1px solid v.$color-border;
+}
+
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  color: v.$color-text-disabled;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.match-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid v.$color-border;
+}
+
+.matchday-label {
+  width: 56px;
+  font-size: 11px;
+  color: #4A5470;
+}
+
+.team-name {
+  flex: 1;
+  font-weight: 500;
+  color: v.$color-text-primary;
+}
+
+.team-home {
+  text-align: right;
+}
+
+.match-score {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  background: v.$color-surface-2;
+  border: 1px solid v.$color-border;
+  padding: 4px 12px;
+  border-radius: v.$radius-sm;
+  color: v.$color-text-primary;
+}
+
+.register-btn {
+  flex-shrink: 0;
+}

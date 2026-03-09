@@ -25,15 +25,15 @@
 
     <div class="stats-row">
       <div class="stat-item">
-        <div class="stat-num">—</div>
+        <div class="stat-num">{{ stats?.totalTeams ?? '—' }}</div>
         <div class="stat-lbl">Equipos</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">—</div>
+        <div class="stat-num">{{ stats?.totalPhases ?? '—' }}</div>
         <div class="stat-lbl">Fases</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">—</div>
+        <div class="stat-num">{{ stats?.totalMatches ?? '—' }}</div>
         <div class="stat-lbl">Partidos</div>
       </div>
     </div>
@@ -43,7 +43,7 @@
         Ver detalle
       </button>
       <button mat-button (click)="goToStandings($event)">
-        Standings
+        Clasificación
       </button>
     </div>
   </mat-card-content>

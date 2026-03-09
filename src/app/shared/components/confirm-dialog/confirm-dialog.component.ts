@@ -12,31 +12,8 @@ export interface ConfirmDialogData {
 @Component({
   selector: 'app-confirm-dialog',
   standalone: false,
-  template: `
-    <div class="dialog-container">
-      <h2 mat-dialog-title>{{ data.title }}</h2>
-      <mat-dialog-content>
-        <p>{{ data.message }}</p>
-      </mat-dialog-content>
-      <mat-dialog-actions align="end">
-        <button mat-stroked-button [mat-dialog-close]="false">
-          {{ data.cancelLabel || 'Cancelar' }}
-        </button>
-        <button
-          mat-flat-button
-          [color]="data.type === 'danger' ? 'warn' : 'primary'"
-          [mat-dialog-close]="true"
-        >
-          {{ data.confirmLabel || 'Confirmar' }}
-        </button>
-      </mat-dialog-actions>
-    </div>
-  `,
-  styles: [`
-    .dialog-container { padding: 8px; min-width: 320px; }
-    mat-dialog-content p { color: #8C97B4; font-size: 14px; margin: 0; }
-    mat-dialog-actions { gap: 8px; padding-top: 8px; }
-  `],
+  templateUrl: './confirm-dialog.component.html',
+  styleUrls: ['./confirm-dialog.component.scss'],
 })
 export class ConfirmDialogComponent {
   constructor(

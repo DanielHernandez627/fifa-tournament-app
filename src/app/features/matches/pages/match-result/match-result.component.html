@@ -22,6 +22,12 @@
     </mat-card-header>
 
     <mat-card-content>
+      <div class="phase-context">
+        <span class="phase-label">Fase</span>
+        <span class="phase-value">{{ phaseName || ('Fase ' + match.phaseId) }}</span>
+        <span class="phase-meta">Fecha {{ match.matchday || '-' }}</span>
+      </div>
+
       <!-- Teams -->
       <div class="teams-row">
         <div class="team-col">

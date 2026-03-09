@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { TournamentsApiService } from '../../../tournaments/services/tournaments-api.service';
 import { MatchesApiService } from '../../services/matches-api.service';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { PhasesApiService } from '../../../phases/services/phases-api.service';
 import { Match } from '../../../../shared/models';
 
 @Component({
@@ -16,6 +17,7 @@ import { Match } from '../../../../shared/models';
 export class MatchResultComponent implements OnInit {
   matchId!: string;
   match?: Match;
+  phaseName = '';
   form!: FormGroup;
   loading = false;
   saving = false;
@@ -25,6 +27,7 @@ export class MatchResultComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private matchesApi: MatchesApiService,
+    private phasesApi: PhasesApiService,
     private tournamentsApi: TournamentsApiService,
     private notify: NotificationService
   ) {}
@@ -41,8 +44,23 @@ export class MatchResultComponent implements OnInit {
   loadMatch(): void {
     this.loading = true;
     this.matchesApi.getById(this.matchId).subscribe({
-      next: (m) => { this.match = m; this.loading = false; },
+      next: (m) => {
+        this.match = m;
+        this.loadPhaseName(String(m.phaseId));
+        this.loading = false;
+      },
       error: () => (this.loading = false),
+    });
+  }
+
+  private loadPhaseName(phaseId: string): void {
+    this.phasesApi.getById(phaseId).subscribe({
+      next: (phase) => {
+        this.phaseName = phase.name;
+      },
+      error: () => {
+        this.phaseName = `Fase ${phaseId}`;
+      },
     });
   }
 

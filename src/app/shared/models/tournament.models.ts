@@ -22,3 +22,21 @@ export interface TournamentSummary extends Tournament {
   phaseCount?: number;
   matchCount?: number;
 }
+
+export interface TournamentStats {
+  tournamentId: string | number;
+  totalTeams: number;
+  totalPhases: number;
+  totalMatches: number;
+}
+
+export interface TournamentStatsListItem {
+  tournamentId: string | number;
+  name: string;
+  type: TournamentType;
+  totalTeams: number;
+  totalPhases: number;
+  totalMatches: number;
+  createdAt?: string;
+  updatedAt?: string;
+}

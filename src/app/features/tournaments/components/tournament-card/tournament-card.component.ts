@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Tournament } from '../../../../shared/models';
+import { Tournament, TournamentStats } from '../../../../shared/models';
 import { TournamentsApiService } from '../../services/tournaments-api.service';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
 })
 export class TournamentCardComponent {
   @Input() tournament!: Tournament;
+  @Input() stats?: TournamentStats;
 
   constructor(
     private router: Router,

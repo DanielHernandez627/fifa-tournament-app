@@ -32,6 +32,7 @@
     <app-tournament-card
       *ngFor="let t of tournaments; trackBy: trackById"
       [tournament]="t"
+      [stats]="getStats(t.id)"
     />
   </div>
 
