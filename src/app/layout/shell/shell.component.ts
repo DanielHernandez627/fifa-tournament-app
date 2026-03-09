@@ -16,9 +16,34 @@ export class ShellComponent {
     { label: 'Fases',       icon: 'swap_horiz',      route: '/app/phases' },
   ];
 
-  constructor(private authService: AuthService) {}
+  userName = 'Usuario';
+  userRole = 'Usuario';
+  userAvatar = 'US';
+
+  constructor(private authService: AuthService) {
+    this.userName = this.authService.getCurrentUserName() ?? 'Usuario';
+    this.userRole = this.authService.getCurrentUserRole();
+    this.userAvatar = this.buildAvatar(this.userName);
+  }
 
   logout(): void {
     this.authService.logout();
+  }
+
+  private buildAvatar(name: string): string {
+    const parts = name
+      .split(/\s+/)
+      .map((part) => part.trim())
+      .filter(Boolean);
+
+    if (!parts.length) {
+      return 'US';
+    }
+
+    if (parts.length === 1) {
+      return parts[0].slice(0, 2).toUpperCase();
+    }
+
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
   }
 }

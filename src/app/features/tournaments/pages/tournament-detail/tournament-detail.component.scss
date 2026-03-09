@@ -4,4 +4,128 @@
 .header-actions { display: flex; gap: 8px; }
 .chips-row      { margin-top: 6px; }
 .tab-content    { padding: 20px 0; }
-.tab-actions    { margin-bottom: 16px; }
+
+.phases-card { margin-bottom: 20px; }
+
+.phase-list {
+	display: grid;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.phase-row {
+	border: 1px solid #2c3550;
+	border-radius: 10px;
+	padding: 10px 12px;
+	background: #1e2535;
+}
+
+.phase-meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.phase-title-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.phase-name {
+	font-weight: 600;
+	color: #e2e8f5;
+}
+
+.phase-order {
+	font-size: 12px;
+	color: #8c97b4;
+}
+
+.pending-warning {
+	margin-top: 12px;
+	margin-bottom: 0;
+	color: #fbbc05;
+	font-size: 13px;
+}
+
+.matches-card {
+	padding: 8px;
+}
+
+.match-row {
+	display: grid;
+	grid-template-columns: 80px minmax(140px, 1fr) minmax(140px, 1fr) 110px 100px;
+	gap: 12px;
+	align-items: center;
+	border-bottom: 1px solid #2c3550;
+	padding: 12px;
+}
+
+.match-row.header {
+	font-size: 11px;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	color: #8c97b4;
+}
+
+.match-row:last-child {
+	border-bottom: 0;
+}
+
+.matchday {
+	color: #8c97b4;
+}
+
+.team {
+	color: #e2e8f5;
+	font-weight: 500;
+}
+
+.score {
+	font-family: 'IBM Plex Mono', monospace;
+	color: #e2e8f5;
+}
+
+.result-actions {
+	grid-column: 2 / -1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.result-actions input {
+	width: 80px;
+	background: #111827;
+	border: 1px solid #2c3550;
+	border-radius: 8px;
+	color: #e2e8f5;
+	padding: 8px 10px;
+}
+
+.result-actions .sep {
+	color: #8c97b4;
+}
+
+@media (max-width: 920px) {
+	.page-header {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.header-actions {
+		width: 100%;
+		justify-content: flex-end;
+	}
+
+	.match-row {
+		grid-template-columns: 1fr;
+		gap: 6px;
+	}
+
+	.result-actions {
+		grid-column: 1;
+		flex-wrap: wrap;
+	}
+}

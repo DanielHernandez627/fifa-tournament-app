@@ -38,10 +38,10 @@
     <!-- User footer -->
     <div class="sidenav-footer">
       <div class="user-tile">
-        <div class="user-avatar">JD</div>
+        <div class="user-avatar">{{ userAvatar }}</div>
         <div class="user-info">
-          <div class="user-name">Juan Díaz</div>
-          <div class="user-role">Administrador</div>
+          <div class="user-name">{{ userName }}</div>
+          <div class="user-role">{{ userRole }}</div>
         </div>
         <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
           <span class="material-icons-round">logout</span>

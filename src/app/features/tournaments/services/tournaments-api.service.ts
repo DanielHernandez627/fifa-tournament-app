@@ -6,6 +6,18 @@ import {
   Match, MatchResultDto, Phase, StandingsRow,
 } from '../../../shared/models';
 
+export interface GenerateLeagueFixtureDto {
+  phaseId?: string;
+  doubleRound?: boolean;
+}
+
+export interface AdvancePhaseResponse {
+  tournament?: Tournament;
+  phase?: Phase;
+  fixture?: Match[];
+  message?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class TournamentsApiService {
   constructor(private api: ApiService) {}
@@ -34,8 +46,8 @@ export class TournamentsApiService {
     return this.api.get<StandingsRow[]>(`/tournaments/${id}/standings`);
   }
 
-  generateLeagueFixtures(id: string): Observable<Match[]> {
-    return this.api.post<Match[]>(`/tournaments/${id}/fixtures/league`);
+  generateLeagueFixtures(id: string, dto?: GenerateLeagueFixtureDto): Observable<Match[]> {
+    return this.api.post<Match[]>(`/tournaments/${id}/fixtures/league`, dto ?? {});
   }
 
   generateQuadrangularFixtures(id: string): Observable<Match[]> {
@@ -54,7 +66,7 @@ export class TournamentsApiService {
     return this.api.post<Phase>(`/tournaments/phases/${phaseId}/close`);
   }
 
-  advanceTournament(tournamentId: string): Observable<Tournament> {
-    return this.api.post<Tournament>(`/tournaments/${tournamentId}/phases/advance`);
+  advanceTournament(tournamentId: string): Observable<AdvancePhaseResponse> {
+    return this.api.post<AdvancePhaseResponse>(`/tournaments/${tournamentId}/phases/advance`);
   }
 }

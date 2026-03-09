@@ -24,4 +24,5 @@ export type UpdateMatchDto = Partial<CreateMatchDto>;
 export interface MatchResultDto {
   homeTeamScore: number;
   awayTeamScore: number;
+  overwrite?: boolean;
 }

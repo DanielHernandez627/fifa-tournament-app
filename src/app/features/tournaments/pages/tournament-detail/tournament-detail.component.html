@@ -13,17 +13,116 @@
       </div>
       <div class="header-actions">
         <button mat-stroked-button [routerLink]="['/app/tournaments', id, 'edit']"><mat-icon>edit</mat-icon> Editar</button>
-        <button mat-flat-button color="primary" (click)="onAdvance()"><mat-icon>skip_next</mat-icon> Avanzar</button>
+        <button mat-flat-button color="primary" [disabled]="!canAdvancePhase()" (click)="onAdvance()">
+          <mat-icon>skip_next</mat-icon>
+          {{ advancing ? 'Procesando...' : getAdvanceLabel() }}
+        </button>
       </div>
     </div>
 
-    <mat-tab-group animationDuration="200ms">
-      <mat-tab label="Fixtures">
-        <div class="tab-content">
-          <div class="tab-actions">
-            <button mat-stroked-button (click)="generateFixtures()"><mat-icon>refresh</mat-icon> Generar fixtures</button>
+    <mat-card class="phases-card">
+      <mat-card-header>
+        <mat-card-title>Fases del torneo</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-empty-state
+          *ngIf="phases.length === 0"
+          icon="swap_horiz"
+          title="No hay fases disponibles"
+          subtitle="Las fases se crean automaticamente al crear el torneo"
+        />
+
+        <ng-container *ngIf="phases.length > 0">
+          <app-phase-stepper [phases]="phases" />
+
+          <div class="phase-list">
+            <div class="phase-row" *ngFor="let phase of phases; trackBy: trackByPhase">
+              <div class="phase-meta">
+                <div class="phase-title-row">
+                  <span class="phase-name">{{ phase.name }}</span>
+                  <app-status-badge [status]="phase.status || 'scheduled'" />
+                </div>
+                <span class="phase-order">Orden {{ phase.orderNumber ?? '-' }}</span>
+              </div>
+            </div>
           </div>
-          <app-empty-state icon="calendar_month" title="No hay fixtures generados" subtitle="Generá los fixtures para esta fase" />
+
+          <p class="pending-warning" *ngIf="activePhase?.status === 'in_progress' && hasPendingMatches()">
+            Debes completar todos los partidos de la fase activa para habilitar el avance.
+          </p>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-tab-group animationDuration="200ms">
+      <mat-tab label="Partidos fase activa">
+        <div class="tab-content">
+          <app-loading-spinner *ngIf="advancing || generatingFixture" label="Actualizando fase y fixtures..." />
+
+          <app-empty-state
+            *ngIf="!activePhase"
+            icon="sports_soccer"
+            title="No hay fase activa"
+            subtitle="Usa Iniciar fase para comenzar el fixture"
+          />
+
+          <app-empty-state
+            *ngIf="activePhase && activePhaseMatches.length === 0 && !generatingFixture"
+            icon="calendar_month"
+            title="Sin partidos en la fase activa"
+            subtitle="El backend generara fixtures automaticamente al avanzar"
+          />
+
+          <mat-card *ngIf="activePhase && activePhaseMatches.length > 0" class="matches-card">
+            <div class="match-row header">
+              <span>Jornada</span>
+              <span>Local</span>
+              <span>Visitante</span>
+              <span>Estado</span>
+              <span>Resultado</span>
+            </div>
+
+            <div class="match-row" *ngFor="let match of activePhaseMatches; trackBy: trackByMatch">
+              <span class="matchday">J{{ match.matchday || '-' }}</span>
+              <span class="team">{{ match.homeTeamName || match.homeTeamId }}</span>
+              <span class="team">{{ match.awayTeamName || match.awayTeamId }}</span>
+              <span><app-status-badge [status]="match.isPlayed ? 'played' : 'pending'" /></span>
+              <span class="score">
+                {{ match.isPlayed ? (match.homeTeamScore + ' - ' + match.awayTeamScore) : '-' }}
+              </span>
+
+              <div class="result-actions" *ngIf="!match.isPlayed">
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Local"
+                  [value]="resultDrafts[match.id]!.homeTeamScore ?? ''"
+                  (input)="onScoreChange(match.id, 'homeTeamScore', $event)"
+                />
+                <span class="sep">-</span>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Visita"
+                  [value]="resultDrafts[match.id]!.awayTeamScore ?? ''"
+                  (input)="onScoreChange(match.id, 'awayTeamScore', $event)"
+                />
+
+                <button mat-stroked-button type="button" (click)="toggleOverwrite(match.id)">
+                  {{ resultDrafts[match.id]!.overwrite ? 'Overwrite: si' : 'Overwrite: no' }}
+                </button>
+
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="button"
+                  [disabled]="!canSaveResult(match)"
+                  (click)="onSaveResult(match)">
+                  {{ savingResults[match.id] ? 'Guardando...' : 'Guardar' }}
+                </button>
+              </div>
+            </div>
+          </mat-card>
         </div>
       </mat-tab>
       <mat-tab label="Standings">

@@ -8,8 +8,12 @@ export interface LoginResponse {
 }
 
 export interface JwtPayload {
-  sub: string;
-  email: string;
+  id?: string;
+  userName?: string;
+  sub?: string;
+  email?: string;
+  role?: string;
   iat: number;
   exp: number;
+  [key: string]: unknown;
 }
