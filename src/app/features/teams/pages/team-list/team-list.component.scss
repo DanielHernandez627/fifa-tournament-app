@@ -1,0 +1,57 @@
+.tournament-section {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.tournament-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #1a2030;
+  border: 0;
+  border-bottom: 1px solid #2a3449;
+  cursor: pointer;
+  text-align: left;
+}
+
+.tournament-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e2e8f5;
+}
+
+.tournament-meta {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #8c97b4;
+}
+
+.tournament-chevron {
+  color: #8c97b4;
+  transition: transform 220ms ease;
+}
+
+.tournament-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.tournament-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 220ms ease;
+}
+
+.tournament-body.collapsed {
+  grid-template-rows: 0fr;
+}
+
+.tournament-body-inner {
+  overflow: hidden;
+}
+
+.team-name-cell {
+  font-weight: 500;
+  color: #e2e8f5;
+}

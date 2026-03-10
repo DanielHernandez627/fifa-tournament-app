@@ -1,7 +1,7 @@
 <div class="page-content">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">
     <button mat-icon-button routerLink="/app/teams"><mat-icon>arrow_back</mat-icon></button>
-    <h1 class="page-title">Nuevo Equipo</h1>
+    <h1 class="page-title">{{ isEditMode ? 'Editar Equipo' : 'Nuevo Equipo' }}</h1>
   </div>
   <mat-card style="max-width:480px">
     <mat-card-content>
@@ -27,7 +27,7 @@
         <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
           <button mat-stroked-button type="button" routerLink="/app/teams">Cancelar</button>
           <button mat-flat-button color="primary" type="submit" [disabled]="loading || tournamentsLoading">
-            <mat-icon>save</mat-icon> Guardar
+            <mat-icon>save</mat-icon> {{ isEditMode ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
       </form>
