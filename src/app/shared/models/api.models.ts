@@ -1,7 +1,13 @@
-export interface ApiError {
-  statusCode: number;
+export interface ApiErrorDetail {
+  code: string;
   message: string;
-  error?: string;
+  field?: string;
+}
+
+export interface ApiError {
+  statusCode?: number;
+  message?: string;
+  error?: string | ApiErrorDetail;
 }
 
 export interface ApiResponse<T> {

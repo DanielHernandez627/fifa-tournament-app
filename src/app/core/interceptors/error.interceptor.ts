@@ -12,6 +12,12 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { StorageService } from '../services/storage.service';
 
+interface BackendErrorPayload {
+  code?: string;
+  message?: string;
+  field?: string;
+}
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
@@ -26,6 +32,8 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
+        const backendError = this.extractBackendError(err);
+
         switch (err.status) {
           case 401:
             this.notify.error('Sesión expirada. Iniciá sesión nuevamente.');
@@ -33,8 +41,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.router.navigate(['/auth/login']);
             break;
           case 400:
+          case 409:
             this.notify.error(
-              err.error?.message ?? 'Datos inválidos. Revisá el formulario.'
+              backendError?.message ?? 'Datos inválidos. Revisá el formulario.'
             );
             break;
           case 404:
@@ -44,10 +53,46 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.notify.error('Error interno del servidor. Intentá nuevamente.');
             break;
           default:
-            this.notify.error('Ocurrió un error inesperado.');
+            this.notify.error(
+              backendError?.message ?? 'Ocurrió un error inesperado.'
+            );
         }
         return throwError(() => err);
       })
     );
+  }
+
+  private extractBackendError(
+    err: HttpErrorResponse
+  ): BackendErrorPayload | null {
+    if (!err.error || typeof err.error !== 'object') {
+      return null;
+    }
+
+    const payload = err.error as Record<string, unknown>;
+    const nestedError = payload['error'];
+
+    if (nestedError && typeof nestedError === 'object') {
+      const parsedError = nestedError as Record<string, unknown>;
+
+      return {
+        code:
+          typeof parsedError['code'] === 'string'
+            ? parsedError['code']
+            : undefined,
+        message:
+          typeof parsedError['message'] === 'string'
+            ? parsedError['message']
+            : undefined,
+        field:
+          typeof parsedError['field'] === 'string'
+            ? parsedError['field']
+            : undefined,
+      };
+    }
+
+    return typeof payload['message'] === 'string'
+      ? { message: payload['message'] }
+      : null;
   }
 }

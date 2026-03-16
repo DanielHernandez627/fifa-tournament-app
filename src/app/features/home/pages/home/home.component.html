@@ -1,0 +1,37 @@
+<main class="landing">
+  <section class="hero">
+    <div class="hero__badge">Plataforma para organizacion de torneos</div>
+    <h1>Tu torneo, claro y ordenado desde el primer partido</h1>
+    <p>
+      FIFA Tournament App te ayuda a planificar fases, administrar equipos, registrar resultados y
+      consultar standings sin perder tiempo en hojas sueltas.
+    </p>
+
+    <div class="hero__actions">
+      <a mat-flat-button color="primary" routerLink="/auth/register">Comenzar ahora</a>
+      <a mat-stroked-button routerLink="/auth/login">Ya tengo cuenta</a>
+    </div>
+
+    <div class="hero__hint">Crea tu espacio y organiza torneos en minutos.</div>
+  </section>
+
+  <section class="features">
+    <article class="feature" *ngFor="let item of highlights">
+      <span class="feature__icon">
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </span>
+      <h2>{{ item.title }}</h2>
+      <p>{{ item.description }}</p>
+    </article>
+  </section>
+
+  <section class="conversion">
+    <div>
+      <h3>Listo para profesionalizar tus torneos?</h3>
+      <p>
+        Centraliza la operacion en una sola plataforma y evita errores manuales en cada jornada.
+      </p>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/auth/register">Crear cuenta</a>
+  </section>
+</main>

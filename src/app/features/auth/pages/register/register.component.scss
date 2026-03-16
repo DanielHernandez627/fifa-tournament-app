@@ -1,32 +1,35 @@
 @use '../../../../../styles/variables' as v;
 
-.login-page {
+.register-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: v.$color-bg;
+  background:
+    radial-gradient(circle at 14% 10%, rgba(91, 141, 239, 0.22), transparent 32%),
+    radial-gradient(circle at 86% 90%, rgba(212, 168, 67, 0.16), transparent 35%),
+    v.$color-bg;
   padding: 24px;
 }
 
-.login-card {
+.register-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 470px;
   background: v.$color-surface;
   border: 1px solid v.$color-border;
   border-radius: v.$radius-xl;
-  padding: 40px 36px;
+  padding: 34px 30px;
   box-shadow: v.$shadow-6;
 }
 
-.login-header {
+.register-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .logo {
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 42px;
+  margin-bottom: 10px;
   display: block;
 }
 
@@ -34,7 +37,7 @@ h1 {
   font-size: 24px;
   font-weight: 700;
   color: v.$color-text-primary;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
 }
 
 .subtitle {
@@ -43,9 +46,17 @@ h1 {
   margin: 0;
 }
 
-.full-width { width: 100%; }
+.full-width {
+  width: 100%;
+}
 
-mat-form-field { margin-bottom: 8px; }
+mat-form-field {
+  margin-bottom: 18px;
+}
+
+.availability-ok {
+  color: #2e7d32;
+}
 
 .submit-btn {
   height: 44px;
@@ -55,7 +66,7 @@ mat-form-field { margin-bottom: 8px; }
   border-radius: v.$radius-pill !important;
 }
 
-.register-link {
+.login-link {
   margin: 16px 0 0;
   text-align: center;
   color: v.$color-text-secondary;

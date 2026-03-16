@@ -3,7 +3,14 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ApiService } from './api.service';
 import { StorageService } from './storage.service';
-import { JwtPayload, LoginRequest, LoginResponse } from '../../shared/models';
+import {
+  JwtPayload,
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  UsernameAvailabilityResponse,
+} from '../../shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -25,6 +32,19 @@ export class AuthService {
         this.storage.setToken(res.token);
         this._isAuthenticated.next(true);
       })
+    );
+  }
+
+  register(payload: RegisterRequest): Observable<RegisterResponse> {
+    return this.api.post<RegisterResponse>('/user', payload);
+  }
+
+  checkUsernameAvailability(
+    username: string
+  ): Observable<UsernameAvailabilityResponse> {
+    return this.api.get<UsernameAvailabilityResponse>(
+      '/user/availability/username',
+      { username }
     );
   }
 

@@ -4,6 +4,12 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { ShellComponent } from './layout/shell/shell.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/home/home.module').then(m => m.HomeModule),
+  },
+
   // Public routes
   {
     path: 'auth',
@@ -51,9 +57,8 @@ const routes: Routes = [
     ],
   },
 
-  // Default redirect
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'auth/login' },
+  // Fallback
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
