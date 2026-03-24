@@ -1,3 +1,17 @@
+export interface BackendUser {
+  id: string;
+  userName: string;
+  firebaseUid: string;
+  email: string;
+  emailVerified?: boolean;
+  isVerified?: boolean;
+  provider: string;
+}
+
+export interface AuthUserResponse {
+  user: BackendUser;
+}
+
 export interface LoginRequest {
   email: string;
   password: string;

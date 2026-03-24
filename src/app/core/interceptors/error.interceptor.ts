@@ -9,8 +9,8 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Auth, signOut } from '@angular/fire/auth';
 import { NotificationService } from '../services/notification.service';
-import { StorageService } from '../services/storage.service';
 
 interface BackendErrorPayload {
   code?: string;
@@ -23,7 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
     private notify: NotificationService,
-    private storage: StorageService
+    private firebaseAuth: Auth
   ) {}
 
   intercept(
@@ -37,8 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         switch (err.status) {
           case 401:
             this.notify.error('Sesión expirada. Iniciá sesión nuevamente.');
-            this.storage.clearToken();
-            this.router.navigate(['/auth/login']);
+            signOut(this.firebaseAuth).then(() => this.router.navigate(['/auth/login']));
             break;
           case 400:
           case 409:

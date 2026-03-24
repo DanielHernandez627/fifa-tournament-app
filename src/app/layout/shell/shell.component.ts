@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { AuthService } from '../../core/services/auth.service';
     styleUrls: ['./shell.component.scss'],
     standalone: false
 })
-export class ShellComponent {
+export class ShellComponent implements OnInit, OnDestroy {
   navItems = [
     { label: 'Torneos',     icon: 'emoji_events',   route: '/app/tournaments' },
     { label: 'Clasificación',   icon: 'leaderboard',     route: '/app/standings' },
@@ -16,14 +17,23 @@ export class ShellComponent {
     { label: 'Fases',       icon: 'swap_horiz',      route: '/app/phases' },
   ];
 
-  userName = 'Usuario';
+  userName = '';
   userRole = 'Usuario';
   userAvatar = 'US';
 
-  constructor(private authService: AuthService) {
-    this.userName = this.authService.getCurrentUserName() ?? 'Usuario';
-    this.userRole = this.authService.getCurrentUserRole();
-    this.userAvatar = this.buildAvatar(this.userName);
+  private userSub!: Subscription;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.userSub = this.authService.backendUser$.subscribe((user) => {
+      this.userName = user?.userName ?? '';
+      this.userAvatar = this.buildAvatar(this.userName);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
   }
 
   logout(): void {

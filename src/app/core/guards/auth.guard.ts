@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { StorageService } from '../services/storage.service';
+import { Auth, authState } from '@angular/fire/auth';
+import { Observable, map, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private storage: StorageService, private router: Router) {}
+  private readonly authState$ = authState(this.auth);
 
-  canActivate(): boolean | UrlTree {
-    if (this.storage.isAuthenticated()) {
-      return true;
-    }
-    return this.router.createUrlTree(['/auth/login']);
+  constructor(private auth: Auth, private router: Router) {}
+
+  canActivate(): Observable<boolean | UrlTree> {
+    return this.authState$.pipe(
+      take(1),
+      map((user) => (user !== null ? true : this.router.createUrlTree(['/auth/login'])))
+    );
   }
 }

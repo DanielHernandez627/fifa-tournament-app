@@ -67,8 +67,7 @@ export class TeamFormComponent implements OnInit {
     this.tournamentsLoading = true;
     this.tournamentsApi.getAll().subscribe({
       next: (data) => {
-        const tokenPayload = this.auth.getTokenPayload();
-        const currentUserId = this.normalizeId(tokenPayload?.id ?? tokenPayload?.sub);
+        const currentUserId = this.normalizeId(this.auth.getCurrentUserId());
 
         const filteredTournaments = currentUserId
           ? data.filter((tournament) => this.normalizeId(tournament.userId) === currentUserId)

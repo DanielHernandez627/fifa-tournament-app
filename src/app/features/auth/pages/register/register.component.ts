@@ -12,9 +12,10 @@ import {
 import { Router } from '@angular/router';
 import { Observable, of, timer } from 'rxjs';
 import { catchError, finalize, map, switchMap } from 'rxjs/operators';
+import { FirebaseError } from 'firebase/app';
+import Swal from 'sweetalert2';
 import { AuthService } from '../../../../core/services/auth.service';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { RegisterRequest } from '../../../../shared/models';
 import { SharedModule } from '../../../../shared/shared.module';
 
 const PASSWORD_PATTERN = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[\]{}|:,.?/])[A-Za-z\d!@#$%^&*()_\-+=[\]{}|:,.?/]{8,64}$/;
@@ -104,23 +105,38 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const payload: RegisterRequest = {
-      username: `${this.username?.value ?? ''}`.trim(),
-      email: `${this.email?.value ?? ''}`.trim(),
-      password: this.password?.value,
-    };
+    const email    = `${this.email?.value ?? ''}`.trim();
+    const password = this.password?.value;
+    const username = `${this.username?.value ?? ''}`.trim();
 
     this.loading = true;
     this.authService
-      .register(payload)
+      .register(email, password, username)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
-        next: () => {
-          this.notify.success('Cuenta creada correctamente. Ahora puedes iniciar sesion.');
+        next: async () => {
+          await Swal.fire({
+            icon: 'success',
+            title: 'Cuenta creada',
+            text: 'Te enviamos un correo de activacion. Verifica tu cuenta para poder iniciar sesion.',
+            confirmButtonText: 'Ir al login',
+            allowOutsideClick: false,
+          });
           this.router.navigate(['/auth/login']);
         },
-        error: (error: HttpErrorResponse) => {
-          const apiError = error.error?.error as
+        error: (error: unknown) => {
+          if (error instanceof FirebaseError) {
+            if (error.code === 'auth/email-already-in-use') {
+              this.email?.setErrors({ ...(this.email.errors ?? {}), duplicateValue: true });
+              this.email?.markAsTouched();
+            } else {
+              this.notify.error('Error al crear la cuenta. Intentá nuevamente.');
+            }
+            return;
+          }
+
+          const httpError = error as HttpErrorResponse;
+          const apiError = httpError.error?.error as
             | { code?: string; message?: string; field?: string }
             | undefined;
 
@@ -129,9 +145,7 @@ export class RegisterComponent implements OnInit {
           }
 
           const fieldControl = this.form.get(apiError.field);
-          if (!fieldControl) {
-            return;
-          }
+          if (!fieldControl) return;
 
           const duplicatedError =
             apiError.field === 'username' ? { usernameTaken: true } : { duplicateValue: true };
